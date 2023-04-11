@@ -24,16 +24,15 @@
   padding-right: 10px
 };
 
-div{
+.form-class{
   width: 100%;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .card{
-  background: #ddf7ff !important;
-  border-color: rgb(0, 0, 0)!important;
-  border: 2px!important;
-  width: 100%;
-  border-radius: 25px!important;
+  display: flex;
+  justify-content: space-around;
 }
 
 .App-header {
