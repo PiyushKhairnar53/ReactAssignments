@@ -13,6 +13,29 @@
   }
 }
 
+.button{
+  background : rgb(78, 78, 78);
+  color:white;
+}
+
+.const-margin {
+  align-items: center;
+  justify-content: end;
+  padding-right: 10px
+};
+
+div{
+  width: 100%;
+}
+
+.card{
+  background: #ddf7ff !important;
+  border-color: rgb(0, 0, 0)!important;
+  border: 2px!important;
+  width: 100%;
+  border-radius: 25px!important;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
