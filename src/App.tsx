@@ -78,14 +78,14 @@ function App() {
   const [sortedBy, setSortedBy] = useState<string>();
   const handleSortList = (sortBy: string) => {
 
-    let sortedList: Product[] = [];
     if (sortBy === 'ascendng') {
-      sortedList = [...itemName].sort((a, b) => a.product_name.localeCompare(b.product_name));
+      itemName.sort((a, b) => a.product_name.localeCompare(b.product_name));
+      setItemName([...itemName]);
     }
     else if (sortBy === 'descending') {
-      sortedList = [...itemName].sort((a, b) => b.product_name.localeCompare(a.product_name));
+      itemName.sort((a, b) => b.product_name.localeCompare(a.product_name));
+      setItemName([...itemName]);
     }
-    setItemName(sortedList);
     setSortedBy(sortBy);
   };
 
