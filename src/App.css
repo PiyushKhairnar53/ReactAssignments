@@ -13,6 +13,24 @@
   }
 }
 
+.const-margin {
+  align-items: center;
+  justify-content: end;
+  padding-right: 10px;
+}
+
+
+.form-class {
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.card {
+  display: flex;
+  justify-content: space-around;
+}
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -32,6 +50,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
