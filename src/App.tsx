@@ -75,6 +75,20 @@ function App() {
     handleClose();
   }
 
+  const [sortedBy, setSortedBy] = useState<string>();
+  const handleSortList = (sortBy: string) => {
+
+    let sortedList: Product[] = [];
+    if (sortBy === 'ascendng') {
+      sortedList = [...itemName].sort((a, b) => a.product_name.localeCompare(b.product_name));
+    }
+    else if (sortBy === 'descending') {
+      sortedList = [...itemName].sort((a, b) => b.product_name.localeCompare(a.product_name));
+    }
+    setItemName(sortedList);
+    setSortedBy(sortBy);
+  };
+
   const handleRemoveItem = (id: number) => {
     const updatedItems = itemName.filter((item) => item.id !== id);
     setItemName(updatedItems);
@@ -84,6 +98,11 @@ function App() {
     <div >
       <Navbar />
       <div className='buttons-bar'>
+      <div className='const-margin'>
+          <span >Sort By</span>
+          <button type='button' className='button' onClick={()=>handleSortList('ascending')} >Ascending</button>
+          <button type='button' className='button' onClick={()=>handleSortList('descending')} >Descending</button>
+        </div>
         <input
           type="text"
           className='search-bar'
