@@ -4,7 +4,9 @@ import './index.css'
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button, Form } from 'react-bootstrap';
 import Navbar from './components/navbar';
-import { Stepper } from 'react-form-stepper';
+import {Product} from './components/Product';
+import ListProducts from './components/ListProducts';
+import ModalComponent from './components/ModalComponent';
 
 function App() {
 
@@ -18,32 +20,10 @@ function App() {
 
   const [step, setNewStep] = useState(1);
   const [search, setSearch] = useState('');
-
-  const nextStep = () => {
-    setNewStep(step + 1);
-  };
-
-  const prevStep = () => {
-    setNewStep(step - 1);
-  };
-
-  interface Product {
-    id: number;
-    product_name: string;
-    product_desc: string;
-    product_price: number;
-    product_qty: number;
-  }
-
   const [itemName, setItemName] = useState<Product[]>([]);
-  const [productName, setProuctName] = useState<string>('');
-  const [productDesc, setProductDesc] = useState<string>('');
-  const [productPrice, setProductPrice] = useState<number>(Number);
-  const [productQty, setProductQty] = useState<number>(Number);
+  const [sortedBy, setSortedBy] = useState<string>();
 
-
-  const handleAddItem = () => {
-
+  const handleAddItem = (productName: string, productDesc: string, productPrice: number, productQty: number) => {
     const newItem: Product = {
       id: Date.now(),
       product_name: productName,
@@ -51,10 +31,26 @@ function App() {
       product_price: productPrice,
       product_qty: productQty,
     };
-
     setItemName([...itemName, newItem]);
-    setFieldDefault()
+    handleClose();
   };
+
+  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(event.target.value);
+  };
+
+  const handleSortList = (sortBy:string) => {
+
+    let sortedList: Product[] = [];
+    if (sortBy === 'ascending') {
+      sortedList = [...itemName].sort((a, b) => a.product_name.localeCompare(b.product_name));
+    } 
+    else if (sortBy === 'descending') {
+      sortedList = [...itemName].sort((a, b) => b.product_name.localeCompare(a.product_name));
+    } 
+    setItemName(sortedList);
+    setSortedBy(sortBy);
+  }
 
   const filteredItems = {
     list: itemName.filter((item) =>
@@ -62,46 +58,14 @@ function App() {
     ),
   };
 
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(event.target.value);
-  };
-
-  function setFieldDefault() {
-    setProuctName('');
-    setProductDesc('');
-    setProductPrice(0);
-    setProductQty(0);
-    setNewStep(1);
-    handleClose();
-  }
-
-  const [sortedBy, setSortedBy] = useState<string>();
-  const handleSortList = (sortBy: string) => {
-
-    if (sortBy === 'ascendng') {
-      itemName.sort((a, b) => a.product_name.localeCompare(b.product_name));
-      setItemName([...itemName]);
-    }
-    else if (sortBy === 'descending') {
-      itemName.sort((a, b) => b.product_name.localeCompare(a.product_name));
-      setItemName([...itemName]);
-    }
-    setSortedBy(sortBy);
-  };
-
-  const handleRemoveItem = (id: number) => {
-    const updatedItems = itemName.filter((item) => item.id !== id);
-    setItemName(updatedItems);
-  }
-
   return (
     <div >
       <Navbar />
       <div className='buttons-bar'>
       <div className='const-margin'>
-          <span >Sort By</span>
-          <button type='button' className='button' onClick={()=>handleSortList('ascending')} >Ascending</button>
-          <button type='button' className='button' onClick={()=>handleSortList('descending')} >Descending</button>
+        <span >Sort By</span>
+          <Button type='button' className='button' onClick={()=>handleSortList('ascending')} >Ascending</Button>
+          <Button type='button' className='button' onClick={()=>handleSortList('descending')} >Descending</Button>
         </div>
         <input
           type="text"
@@ -115,97 +79,9 @@ function App() {
       </div>
 
       <Modal show={show} onHide={handleClose}>
-
-        <Modal.Header closeButton>
-          <Stepper className='stepper-color'
-            steps={[{ label: 'Product Details' }, { label: 'Product Values' }]}
-            activeStep={step} />
-          <Modal.Title>Add Grocery</Modal.Title>
-        </Modal.Header>
-
-        {step === 1 && <>
-          <Modal.Body>
-            <Form>
-              <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label>Product Name</Form.Label>
-                <Form.Control type="text" placeholder="Sprite" value={productName} onChange={(e) => setProuctName(e.target.value)} />
-              </Form.Group>
-              <Form.Group
-                className="mb-3"
-                controlId="exampleForm.ControlTextarea1">
-                <Form.Label>Product Description</Form.Label>
-                <Form.Control as="textarea" rows={2} value={productDesc} onChange={(e) => setProductDesc(e.target.value)} />
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
-              Close
-            </Button>
-            <Button variant="primary" name="nextButton" disabled={productName.length >= 30 || productDesc.length <= 100} onClick={nextStep}>
-              Next
-            </Button>
-          </Modal.Footer>
-        </>}
-
-        {step === 2 && <>
-          <Modal.Body>
-            <Form className='form-margins'>
-              <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label>Product Price</Form.Label>
-                <input type="number" placeholder="50" onChange={(e) => setProductPrice(e.target.valueAsNumber)} />
-              </Form.Group>
-              <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-                <Form.Label>Product Quantity</Form.Label>
-                <input type="number" onChange={(e) => setProductQty(e.target.valueAsNumber)} />
-              </Form.Group>
-            </Form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={prevStep}>
-              Previous
-            </Button>
-            <Button type='submit' variant="primary" disabled={productPrice == 0 || productQty == 0} onClick={handleAddItem}>
-              Submit
-            </Button>
-          </Modal.Footer>
-        </>}
-
+        <ModalComponent SaveProduct={handleAddItem}/>
       </Modal>
-
-      <div>
-        <table className='table-row'>
-          <thead className='thead-dark'>
-            <tr>
-              <th>Product Name</th>
-              <th>Product Description</th>
-              <th>Product Price</th>
-              <th>Product Quantity</th>
-            </tr>
-          </thead>
-        </table>
-        <ul>
-          {(
-            filteredItems.list.map((post) => {
-              return (
-                <div>
-                  <div>
-                    <table>
-                      <tr key={post.id}>
-                        <td > <strong>{post.product_name}</strong></td>
-                        <td > {post.product_desc}</td>
-                        <td > {post.product_price}</td>
-                        <td > {post.product_qty}</td>
-                        <Button variant='danger' className='card-button' type='button' onClick={() => handleRemoveItem(post.id)}>Delete</Button>
-                      </tr>
-                    </table>
-                  </div>
-                </div>
-              )
-            })
-          )}
-        </ul>
-      </div>
+      <ListProducts products={filteredItems.list} />
     </div>
   );
 }
