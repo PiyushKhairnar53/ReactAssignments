@@ -51,9 +51,13 @@ const CustomerLocationForm: React.FC = () => {
     const [custState, setState] = useState<string>(customerState);
     const [custCountry, setCountry] = useState<string>(customerCountry);
     const [show, setShow] = useState(false);
+    const [valid,setValid] = useState('');
 
     const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const handleShow = (props:any) => {
+        setShow(true);
+        setValid(props);
+    }
   
     const handleOnButtonClick = () => {
 
@@ -71,35 +75,66 @@ const CustomerLocationForm: React.FC = () => {
 
         if (newCustomer.name !== '' && newCustomer.age !== '' && newCustomer.contactNo !== '') {
 
-            if (currentPage == 'Add') {
-                axios.post<response>('https://localhost:44367/api/Customer', newCustomer)
-                    .then((res) => {
-                        console.log(res.data)
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            }
-
-            if (currentPage == 'Update') {
-                axios.put<response>(`https://localhost:44367/api/Customer/${customerCustomerId}`, newCustomer)
-                    .then((res) => {
-                        console.log(res.data)
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                        if (error.response.status === 404) {
-                            console.log('Resource could not be found!');
-                        } else {
-                            console.log(error.message);
+            if(newCustomer.name.match(/^[a-zA-Z]*$/))
+            {
+                if(newCustomer.age>=18 && newCustomer.age<100){
+                    if (newCustomer.contactNo.match(/^\d{10}$/)) {
+                        if (currentPage == 'Add') {
+                            axios.post<response>('https://localhost:44367/api/Customer', newCustomer)
+                                .then((res) => {
+                                    console.log(res.data)
+                                })
+                                .catch(function (error) {
+                                    console.log(error);
+                                });
                         }
-                    });
+            
+                        if (currentPage == 'Update') {
+                            axios.put<response>(`https://localhost:44367/api/Customer/${customerCustomerId}`, newCustomer)
+                                .then((res) => {
+                                    console.log(res.data)
+                                })
+                                .catch(function (error) {
+                                    console.log(error);
+                                    if (error.response.status === 404) {
+                                        console.log('Resource could not be found!');
+                                    } else {
+                                        console.log(error.message);
+                                    }
+                                });
+                        }
+                        setFieldDefault();
+                        navigate('/CustomerLocation/ViewCustomer');                    
+                    }
+                    else {
+                        handleShow("Please enter valid Contact number");
+                    }
+
+                }else{
+                    handleShow("Please enter valid Age");
+                }
+            }else{
+                handleShow("Please enter valid Name");
             }
-            setFieldDefault();
-            navigate('/CustomerLocation/ViewCustomer');
+            
         }
         else{
-           handleShow();
+            if(newCustomer.name === '' && newCustomer.age === '' && newCustomer.contactNo === '')
+            {
+                handleShow("Name Age and Customer fields are Empty");
+            }
+            else{
+                if(newCustomer.name === ''){
+                    handleShow("Name field is Empty");
+                }
+                if(newCustomer.age === ''){
+                    handleShow("Age field is Empty");
+                }
+                if(newCustomer.contactNo === ''){
+                    handleShow("Contact number field is Empty");
+                }
+            }
+
         }
     }
 
@@ -177,11 +212,11 @@ const CustomerLocationForm: React.FC = () => {
             <div className='d-flex justify-content-end'>
                 <Button className='w-25 m-3' variant="primary" name="nextButton" onClick={handleOnButtonClick}>{buttonName}</Button>
             </div>
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} valid={valid} onHide={handleClose}>
                 <Modal.Header closeButton>
-                <Modal.Title>Field is empty</Modal.Title>
+                <Modal.Title>{valid}</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>Please fill all mandatory fields!</Modal.Body>
+                <Modal.Body>Please fill all mandatory fields correctly!</Modal.Body>
                 <Modal.Footer>
                 <Button variant="secondary" onClick={handleClose}>
                     Close

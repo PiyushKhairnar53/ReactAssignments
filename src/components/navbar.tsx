@@ -11,7 +11,7 @@ const Navbar = () => {
         <div className="dropdown text-end profile-img">
 
           <a href="#" className="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1"
-            data-bs-toggle="dropdown" aria-expanded="false">
+            data-bs-toggle="dropdown" aria-expanded="true">
             <img src="/dotnet.png" alt="mdo" width="32" height="32" className="rounded-circle"></img>
           </a>
 
