@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import CustomerLocationForm from './CustomerLocationForm';
 
-const AddCustomer: React.FC = () => {
+const AddAttorney: React.FC = () => {
 
   return (
     <div >
@@ -10,4 +10,4 @@ const AddCustomer: React.FC = () => {
   )
 }
 
-export default AddCustomer;
+export default AddAttorney;

@@ -7,7 +7,7 @@ const Navbar = () => {
   return (
     <React.Fragment>
       <nav className="navbar">
-        <h4 className="navbar-title">Customer Location</h4>
+        <h3 className="navbar-title">Lexicon</h3>
         <div className="dropdown text-end profile-img">
 
           <a href="#" className="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser1"
