@@ -39,14 +39,14 @@ const ListInvoicesByMatter: React.FC = () => {
                 </thead>
                 <tbody>
                     {matterData?.map((client, index) => {
-                        return (      
+                        return (
                             <React.Fragment key={index}>
                                 <tr>
                                     <th rowSpan={matterData[index].length + 1}>{index + 1}</th>
                                     <th colSpan={7}>{matterData[index][0].clientName}</th>
                                 </tr>
                                 {matterData[index].map((matter, index) => {
-                                   
+
                                     return (
                                         <tr key={index}>
                                             <td>{index + 1}</td>
@@ -60,7 +60,7 @@ const ListInvoicesByMatter: React.FC = () => {
                                     )
                                 })}
                             </React.Fragment>
-                        )
+                            )
                     })}
                 </tbody>
             </table>

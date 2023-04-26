@@ -24,7 +24,6 @@ const ListMattersForClient: React.FC = () => {
 
         axios.get(`https://localhost:44318/api/Matter/${id}`)
             .then(res => {
-                // getMatterJurisdiction(res.data.data.jurisdictionId);
                 setMatterData(res.data.data)
             })
             .catch(err => console.log(err))

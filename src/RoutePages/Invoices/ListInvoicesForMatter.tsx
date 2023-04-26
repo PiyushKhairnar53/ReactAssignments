@@ -4,13 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { InvoicesForMatter } from './InvoicesForMatter';
 import { Button, Form } from 'react-bootstrap';
-import { Client } from '../Client/Client';
 import { Matter } from '../Matter/Matter';
 
 const ListInvoicesForMatter: React.FC = () => {
 
     const [matterData, setMatterData] = useState([]);
-    const navigate = useNavigate();
     const [matterTitle, setMatterTitle] = useState([]);
     const [message, setMessage] = useState<string>("");
 

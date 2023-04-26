@@ -7,21 +7,20 @@ import { MattersByClient } from './MatterByClient';
 const ListMatterByClient: React.FC = () => {
 
     const [matterData, setMatterData] = useState<MattersByClient[][]>();
-    const [group,setGroup] = useState([]);
-  
-    const getData = () =>{
-      axios.get('https://localhost:44318/api/Matter/MattersByClient')
-      .then(res => {
-        setMatterData(res.data.data);
-        console.log(matterData);
-      })
-      .catch(err => console.log(err))
+
+    const getData = () => {
+        axios.get('https://localhost:44318/api/Matter/MattersByClient')
+            .then(res => {
+                setMatterData(res.data.data);
+                console.log(matterData);
+            })
+            .catch(err => console.log(err))
     }
-  
+
     useEffect(() => {
-      getData();
+        getData();
     }, []);
-  
+
     return (
         <div>
             <div className="text-center mt-2">
@@ -29,15 +28,15 @@ const ListMatterByClient: React.FC = () => {
             </div>
             <table className="table text-center mt-3 table-striped">
                 <thead>
-                        <tr className="table-dark">
-                            <th>Client</th>
-                            <th>Index</th>
-                            <th>Title</th>
-                            <th>Category</th>
-                            <th>Jurisdiction Area</th>
-                            <th>Billing Attorney</th>
-                            <th>Responsible Attorney</th>
-                        </tr>
+                    <tr className="table-dark">
+                        <th>Client</th>
+                        <th>Index</th>
+                        <th>Title</th>
+                        <th>Category</th>
+                        <th>Jurisdiction Area</th>
+                        <th>Billing Attorney</th>
+                        <th>Responsible Attorney</th>
+                    </tr>
                 </thead>
                 <tbody>
                     {matterData?.map((client, index) => {

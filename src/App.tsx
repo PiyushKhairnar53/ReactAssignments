@@ -1,11 +1,9 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { useState, useEffect } from "react";
 import MainContent from './components/MainContent'
 import { BrowserRouter } from 'react-router-dom';
 import Axios from 'axios';
-import { loading } from './Config/Action';
 
 function App() {
 
@@ -13,18 +11,11 @@ function App() {
   const [loading, setLoading] = useState(true);
 
 
-  Axios.interceptors.request.use(function (config) {
+  Axios.interceptors.request.use(function (request) {
 
-    // spinning start to show
-    // UPDATE: Add this code to show global loading indicator
     document.body.classList.add('loading-indicator');
     setLoading(true);
-
-    const token = window.localStorage.token;
-    if (token) {
-       config.headers.Authorization = `token ${token}`
-    }
-    return config
+    return request
   }, function (error) {
     setLoading(false);
     document.body.classList.remove('loading-indicator');
@@ -32,9 +23,7 @@ function App() {
   });
   
   Axios.interceptors.response.use(function (response) {
-  
-    // spinning hide
-    // UPDATE: Add this code to hide global loading indicator
+
     document.body.classList.remove('loading-indicator');
     setLoading(false);
   
@@ -49,10 +38,8 @@ function App() {
     switch (action.type) {
         case "SHOW_LOADER":
             return action.data;
-            break;
         case "HIDE_LOADER":
             return action.data;
-            break;
         default:
             return state;
     }
