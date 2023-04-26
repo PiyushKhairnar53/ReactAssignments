@@ -2,17 +2,14 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Matter } from './Matter';
+import { MatterForClient } from './MatterForClient';
 import { Button, Form } from 'react-bootstrap';
 import { Client } from '../Client/Client';
 
 const ListMattersForClient: React.FC = () => {
 
     const [matterData, setMatterData] = useState([]);
-    const navigate = useNavigate();
     const [clientData, setClientData] = useState([]);
-    const [jurisdictionData, setJurisdictionData] = useState([]);
-
 
     const setClients = () => {
         axios.get('https://localhost:44318/api/Client')
@@ -33,15 +30,6 @@ const ListMattersForClient: React.FC = () => {
             .catch(err => console.log(err))
     }
 
-    // const getMatterJurisdiction = () =>{
-    //     axios.get(`https://localhost:44318/api/Jurisdiction/${}`)
-    //     .then(res => {
-    //       setJurisdictionData(res.data.data)
-    //     })
-    //     .catch(err => console.log(err))
-    // }
-
-
     const handleChangeClientData = (e: any) => {
         getMattersForClient(e.value);
     }
@@ -52,7 +40,6 @@ const ListMattersForClient: React.FC = () => {
 
     return (
         <div>
-
             <div>
                 <Form>
                     <Form.Group className="p-3" controlId="exampleForm.ControlInput1">
@@ -86,15 +73,21 @@ const ListMattersForClient: React.FC = () => {
                         <th>Title</th>
                         <th>Description</th>
                         <th>Category</th>
+                        <th>Jurisdiction Area</th>
+                        <th>Billing Attorney</th>
+                        <th>Responsible Attorney</th>
                     </tr>
                 </thead>
                 <tbody className="text-center">
-                    {matterData.map((item: Matter, index) => (
+                    {matterData.map((item: MatterForClient, index) => (
                         <tr key={item.id}>
                             <td>{index + 1}</td>
                             <td>{item.title}</td>
                             <td>{item.description}</td>
                             <td>{item.category}</td>
+                            <td>{item.jurisdictionArea}</td>
+                            <td>{item.billingAttorneyName}</td>
+                            <td>{item.responsibleAttorneyeName}</td>
                         </tr>))}
                 </tbody>
             </table>

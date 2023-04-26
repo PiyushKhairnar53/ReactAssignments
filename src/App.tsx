@@ -26,6 +26,8 @@ function App() {
     }
     return config
   }, function (error) {
+    setLoading(false);
+    document.body.classList.remove('loading-indicator');
     return Promise.reject(error);
   });
   
@@ -38,6 +40,8 @@ function App() {
   
     return response;
   }, function (error) {
+    document.body.classList.remove('loading-indicator');
+    setLoading(false);
     return Promise.reject(error);
   });
 
